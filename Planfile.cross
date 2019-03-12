@@ -1,0 +1,41 @@
+
+# DSL like configuration
+
+use core https://github.com/habitat-sh/core-plans
+use ncerny https://github.com/ncerny/habitat-plans
+use qago https://github.com/qago/habitat-plans
+use jarvus https://github.com/JarvusInnovations/habitat-plans
+use eeyun https://github.com/eeyun/habitat-plans
+use starkandwayne https://github.com/starkandwayne/habitat-plans
+
+git remote -v | grep fetch | column -t
+
+# stash first
+repo_is_clean || say "There are uncommitted changes in the repository. Stash them first." 1
+
+# example: origin/plan [branch]
+section core/consul
+section core/cacerts
+section core/etcd
+section ncerny/cfssl
+
+
+# hooks provides automation for tracked upstream
+cross_post_hook() {
+  ask "Vendor plans?" N && {
+    echo "TODO, update author/maintenance info"
+  }
+}
+
+# crips_dependencies, is virtual function to list Plan dependencies for git-cross
+cross_dependencies() {
+  [[ -n "$1" ]] || say "DEPS called without an argument: plan name"
+  plan=$1
+  # TODO: find out a better/safe way to parse dependencies
+  # source plan.sh in order to cross deps, regexes are used to avoid junk
+  #      # pkg_.* and loops                # avoid bash maps
+  eval "$(sed -e '/^[pkgcaseiffor].*/,/^[)]/!d' -e '/_map\|exports\|binds=.*/,/^[)]/d' $plan/plan.sh)" >/dev/null || true
+  echo "${pkg_deps[@]:-''} ${pkg_build_deps[@]:-''}" | xargs -n 1 --no-run-if-empty | awk -F'/' '{print $1"/"$2}'
+}
+
+
