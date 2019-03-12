@@ -1,5 +1,5 @@
 
-# Git workflow (concept) to fetch and sync habitat plans from community
+# Git workflow concept to fetch and sync habitat plans
 
 TLDR;
 Individual plans from upstream repositories are fetched directly to root of your git repository.
