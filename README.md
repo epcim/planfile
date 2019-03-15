@@ -23,10 +23,10 @@ Configure your tracked plans, hooks in Planfile.cross:
   use starkandwayne https://github.com/starkandwayne/habitat-plans
 
   # example: origin/plan [branch]
-  section core/consul
-  section core/cacerts
-  section core/etcd
-  section ncerny/cfssl
+  patch core/consul
+  patch core/cacerts
+  patch core/etcd
+  patch ncerny/cfssl
 ```
 
 Track and checkout plans with:

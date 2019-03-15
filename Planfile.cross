@@ -14,10 +14,10 @@ git remote -v | grep fetch | column -t
 repo_is_clean || say "There are uncommitted changes in the repository. Stash them first." 1
 
 # example: origin/plan [branch]
-section core/consul
-section core/cacerts
-section core/etcd
-section ncerny/cfssl
+patch core/consul
+patch core/cacerts
+patch core/etcd
+patch ncerny/cfssl
 
 
 # hooks provides automation for tracked upstream
